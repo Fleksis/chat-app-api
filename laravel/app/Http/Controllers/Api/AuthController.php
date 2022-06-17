@@ -32,12 +32,24 @@ class AuthController extends Controller
             return response()->json([
                 'message' => [
                     'type' => 'error',
-                    'data' => 'Ievadītie dati nav korekti.',
+                    'data' => 'Entered data are incorrect.',
                 ]
             ]);
         }
 
         $token = auth()->user()->createToken('API Token')->accessToken;
         return response(['user' => auth()->user(), 'token' => $token]);
+    }
+
+    public function logout() {
+        $user = auth()->user();
+        auth()->user()->token()->revoke();
+        return response()->json([
+            'message' => [
+                'type' => 'success',
+                'data' => 'Successfully logged out',
+            ],
+            'user' => $user,
+        ]);
     }
 }
