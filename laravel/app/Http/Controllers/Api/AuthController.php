@@ -30,11 +30,10 @@ class AuthController extends Controller
 
         if (!auth()->attempt($validated)) {
             return response()->json([
-                'message' => [
-                    'type' => 'error',
+                'errors' => [
                     'data' => 'Entered data are incorrect.',
                 ]
-            ]);
+            ], 400);
         }
 
         $token = auth()->user()->createToken('API Token')->accessToken;
@@ -50,6 +49,6 @@ class AuthController extends Controller
                 'data' => 'Successfully logged out',
             ],
             'user' => $user,
-        ]);
+        ], 200);
     }
 }

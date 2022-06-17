@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:api']], function() {
+    Route::get('/me', [UserController::class, 'user']);
+    Route::get('/users', [UserController::class, 'index']);
+    Route::put('/update', [UserController::class, 'update']);
+
     Route::get('/logout', [AuthController::class, 'logout']);
 });
